@@ -27,7 +27,7 @@ class GraphQLClient:
 
 if __name__ == "__main__":
     token = "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"  # Token should ideally be handled more securely
-    graphql = (token)
+    graphql = GraphQLClient(token)
 
     query = """
     {
