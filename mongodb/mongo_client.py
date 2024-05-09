@@ -1,5 +1,5 @@
 import pymongo
-import json
+
 
 class MongoDBClient:
     def __init__(self, db, col, username=None, password=None):
@@ -11,19 +11,17 @@ class MongoDBClient:
         self.database = self.client[db]
         self.collection = self.database[col]
 
-    def insert_elements(self,data_json):
-        #data = json.loads(data_json)
-
-        # Iterar sobre los elementos y insertarlos en la colección
-        for edge in data_json["data"]["search"]["edges"]:
-            node = edge["node"]
-            self.collection.insert_one({
-                "name": node["name"],
-                "owner": node["owner"]["login"],
-                "stargazers": node["stargazers"]["totalCount"]
-            })
-
-
-
-
-
+    def insert_elements(self, data_json):
+        """Inserta elementos en la colección desde un JSON."""
+        try:
+            documents = [
+                {
+                    "name": edge["node"]["name"],
+                    "owner": edge["node"]["owner"]["login"],
+                    "stargazers": edge["node"]["stargazers"]["totalCount"]
+                }
+                for edge in data_json["data"]["search"]["edges"]
+            ]
+            self.collection.insert_many(documents)
+        except Exception as e:
+            print(f"Error al insertar elementos: {e}")
