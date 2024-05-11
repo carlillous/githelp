@@ -9,12 +9,15 @@ def main():
     mongo_col = "repositories"
     mongo_client = MongoDBClient(mongo_db, mongo_col, username=mongo_username, password=mongo_password)
 
-    filter = {"language": "Python", "keyword": "chatgpt"}
-    documents = mongo_client.find_documents(filter)
+    languages = ["Python", "C"]
+    keywords = ["chatgpt", "machine learning"]
+    min_stars = 1500
+    documents = mongo_client.find_documents(languages, keywords, min_stars)
 
-    neo4j_uri = "neo4j+s://b47768d5.databases.neo4j.io"
+    #probar +s o +ssc: https://stackoverflow.com/questions/73025684/unable-to-retrieve-routing-information-neo4j
+    neo4j_uri = "neo4j+ssc://761fb7e4.databases.neo4j.io:"
     neo4j_user = "neo4j"
-    neo4j_pass = "4I9XJHCkbj3zth9vf3POnpU6byO9cIjboda_aUwLC3k"
+    neo4j_pass = "bUamNfpq4UTlaV1A15xaDf0Tv0oebuQYOKhtX5O068Q"
 
     transfer_to_neo4j(neo4j_uri, neo4j_user, neo4j_pass, documents)
 

@@ -27,11 +27,17 @@ class MongoDBClient:
         except Exception as e:
             print(f"Error al insertar elementos: {e}")
 
-    def find_documents(self, filter):
+    def find_documents(self, languages=None, keywords=None, min_stars=None):
         """Busca documentos en la colección utilizando un filtro específico."""
         try:
-            results = self.collection.find(filter)
-            return list(results)  # Convierte el resultado a una lista para manejo más fácil
+            filter = {}
+            if languages:
+                filter['language'] = {'$in': languages}
+            if keywords:
+                filter['keyword'] = {'$in': keywords}
+            if min_stars is not None:
+                filter['stargazers'] = {'$gte': min_stars}
+            return list(self.collection.find(filter))
         except Exception as e:
             print(f"Error al buscar documentos: {e}")
             return []
