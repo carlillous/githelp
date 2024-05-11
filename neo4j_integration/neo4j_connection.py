@@ -18,3 +18,8 @@ class Neo4JConnection:
     def session(self):
         """Provide a context-managed Neo4j session."""
         return self.driver.session()
+
+    def query(self, cypher_query, parameters=None, db=None):
+        with self.driver.session(database=db) as session:
+            result = session.run(cypher_query, parameters)
+            return [record for record in result]

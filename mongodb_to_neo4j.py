@@ -1,4 +1,4 @@
-# run_integration.py
+# mongodb_to_neo4j.py
 from mongodb.mongo_client import MongoDBClient
 from neo4j_integration.mongo_to_neo4j import transfer_to_neo4j
 
@@ -10,8 +10,8 @@ def main():
     mongo_client = MongoDBClient(mongo_db, mongo_col, username=mongo_username, password=mongo_password)
 
     languages = ["Python", "C"]
-    keywords = ["chatgpt", "machine learning"]
-    min_stars = 1500
+    keywords = ["e-commerce", "machine learning"]
+    min_stars = 1000
     documents = mongo_client.find_documents(languages, keywords, min_stars)
 
     #probar +s o +ssc: https://stackoverflow.com/questions/73025684/unable-to-retrieve-routing-information-neo4j
