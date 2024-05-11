@@ -2,7 +2,7 @@ from graphqlapi.graphql_client import GraphQLClient
 from mongodb.mongo_client import MongoDBClient
 import json
 
-if __name__ == "__main__":
+def main():
     # Cliente Github
     token = "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"
     graphql_client = GraphQLClient(token)
@@ -30,3 +30,6 @@ if __name__ == "__main__":
 
             except Exception as e:
                 print(e)
+
+if __name__ == "__main__":
+    main()

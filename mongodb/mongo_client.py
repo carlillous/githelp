@@ -27,3 +27,11 @@ class MongoDBClient:
         except Exception as e:
             print(f"Error al insertar elementos: {e}")
 
+    def find_documents(self, filter):
+        """Busca documentos en la colección utilizando un filtro específico."""
+        try:
+            results = self.collection.find(filter)
+            return list(results)  # Convierte el resultado a una lista para manejo más fácil
+        except Exception as e:
+            print(f"Error al buscar documentos: {e}")
+            return []
