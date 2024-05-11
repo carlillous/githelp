@@ -19,7 +19,12 @@ def create_and_link(tx, doc):
     query = """
     MERGE (repo:Repository {name: $name})
     MERGE (user:User {login: $owner})
+    MERGE (lang:Language {name: $language})
+    MERGE (kw:Keyword {key_word:$keyword})
     MERGE (repo)-[:OWNED_BY]->(user)
+    MERGE (user)-[:USES_LANGUAGE]->(lang)
+    MERGE (user)-[:INTERESTED_IN_KEYWORD]->(kw)
+    
     SET repo.stargazers = $stargazers, repo.keyword = $keyword, repo.language = $language
     """
     tx.run(query, name=doc["name"], owner=doc["owner"], stargazers=doc["stargazers"], keyword=doc["keyword"],
