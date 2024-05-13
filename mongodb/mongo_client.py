@@ -2,11 +2,8 @@ import pymongo
 
 class MongoDBClient:
     def __init__(self, db, col, username=None, password=None):
-        if username and password:
-            uri = f"mongodb://{username}:{password}@localhost:27017/"
-            self.client = pymongo.MongoClient(uri)
-        else:
-            self.client = pymongo.MongoClient("mongodb://localhost:27017/")
+        uri = f"mongodb+srv://{username}:{password}@githelp.ftkgizk.mongodb.net/?retryWrites=true&w=majority&appName=githelp"
+        self.client = pymongo.MongoClient(uri)
         self.database = self.client[db]
         self.collection = self.database[col]
 

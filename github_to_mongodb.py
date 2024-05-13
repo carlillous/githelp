@@ -9,8 +9,8 @@ def main():
     graphql_client = GraphQLClient(token)
 
     # Cliente Mongo con autenticación
-    mongo_username = "root"
-    mongo_password = "admin"
+    mongo_username = "USERNAME"
+    mongo_password = "PASSWORD"
     mongo_client = MongoDBClient("github_data", "repositories", username=mongo_username, password=mongo_password)
 
     # Definición de keywords y lenguajes
