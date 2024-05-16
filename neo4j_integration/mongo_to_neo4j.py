@@ -2,7 +2,7 @@
 from .neo4j_connection import Neo4JConnection
 from .data_parser import DataParser
 
-
+#TODO: REFACTOR THIS CLASS FOR NEW QUERIES
 def transfer_to_neo4j(neo4j_uri, neo4j_user, neo4j_pass, documents):
     neo4j_conn = Neo4JConnection(neo4j_uri, neo4j_user, neo4j_pass)
 

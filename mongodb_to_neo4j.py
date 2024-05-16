@@ -1,7 +1,7 @@
 # mongodb_to_neo4j.py
 from mongodb.mongo_client import MongoDBClient
 from neo4j_integration.mongo_to_neo4j import transfer_to_neo4j
-
+#TODO: MONGO INTO NEO4J WITHOUT FILTER
 def main():
     mongo_username = "root"
     mongo_password = "admin"

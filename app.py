@@ -2,7 +2,7 @@ import streamlit as st
 from mongodb.mongo_client import MongoDBClient
 from neo4j_integration.neo4j_connection import Neo4JConnection
 
-# Aquí puedes escribir el código para tu aplicación
+#TODO: THIS SHIT DOESN'T WORK (FIX IT)
 st.title('GitHelp')
 
 mongo_client = MongoDBClient("github_data", "repositories", username="carlosmenegg", password="agcnc7SuS7f9BPou")

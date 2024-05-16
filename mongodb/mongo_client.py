@@ -8,6 +8,7 @@ class MongoDBClient:
         self.collection = self.database[col]
 
     def insert_elements(self, data_json, keyword, language):
+        #TODO: REFACTOR NEW MONGODB INSERT AFTER NEW QUERIES.
         """Inserta elementos en la colección desde un JSON, añadiendo información sobre la keyword y language."""
         try:
             documents = [
