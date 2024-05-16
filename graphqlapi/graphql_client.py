@@ -36,6 +36,12 @@ class GraphQLClient:
                   stargazers {{
                     totalCount
                   }}
+                  issues {{
+                    totalCount
+                  }}
+                  forks {{
+                    totalCount
+                  }}
                 }}
               }}
             }}
@@ -43,3 +49,59 @@ class GraphQLClient:
         }}
         """
         return self.run_query(query)
+
+    def search_users(self, keyword, followers=1000, repositories=5, first=5):
+        """Searches users based on a keyword and other criteria."""
+        query = f"""
+        {{
+          search(query: "{keyword} in:login followers:>{followers} repositories:>{repositories}", type: USER, first: {first}) {{
+            edges {{
+              node {{
+                ... on User {{
+                  login
+                  name
+                  company
+                  following {{
+                    totalCount
+                  }}
+                  followers {{
+                    totalCount
+                  }}
+                  repositories {{
+                    totalCount
+                  }}
+                }}
+              }}
+            }}
+          }}
+        }}
+        """
+        return self.run_query(query)
+
+    def get_user_network(self, username, first=5):
+        """Gets the network of following and followers of a user."""
+        query = f"""
+        {{
+          user(login: "{username}") {{
+            following(first: {first}) {{
+              totalCount
+              edges {{
+                node {{
+                  login
+                }}
+              }}
+            }}
+            followers(first: {first}) {{
+              totalCount
+              edges {{
+                node {{
+                  login
+                }}
+              }}
+            }}
+          }}
+        }}
+        """
+        return self.run_query(query)
+
+
