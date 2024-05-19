@@ -50,11 +50,11 @@ class GraphQLClient:
         """
         return self.run_query(query)
 
-    def search_users(self, keyword, followers=1000, repositories=5, first=5):
+    def search_users(self, username, followers=1000, repositories=5, first=5):
         """Searches users based on a keyword and other criteria."""
         query = f"""
         {{
-          search(query: "{keyword} in:login followers:>{followers} repositories:>{repositories}", type: USER, first: {first}) {{
+          search(query: "{username} in:login followers:>{followers} repositories:>{repositories}", type: USER, first: {first}) {{
             edges {{
               node {{
                 ... on User {{
