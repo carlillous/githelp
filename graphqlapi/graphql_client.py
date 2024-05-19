@@ -50,11 +50,11 @@ class GraphQLClient:
         """
         return self.run_query(query)
 
-    def search_users(self, username, followers=1000, repositories=5, first=5):
-        """Searches users based on a keyword and other criteria."""
+    def search_user(self, username):
+        """Searches a user based on a username."""
         query = f"""
         {{
-          search(query: "{username} in:login followers:>{followers} repositories:>{repositories}", type: USER, first: {first}) {{
+          search(query: "{username} in:login", type: USER, first: 1) {{
             edges {{
               node {{
                 ... on User {{
@@ -78,30 +78,63 @@ class GraphQLClient:
         """
         return self.run_query(query)
 
-    def get_user_network(self, username, first=5):
-        """Gets the network of following and followers of a user."""
-        query = f"""
-        {{
-          user(login: "{username}") {{
-            following(first: {first}) {{
-              totalCount
-              edges {{
-                node {{
-                  login
+    def get_user_network(self, username):
+        """Gets the network of following and followers of a user, with pagination to fetch all."""
+        following = []
+        followers = []
+        has_next_following = True
+        has_next_followers = True
+        end_cursor_following = None
+        end_cursor_followers = None
+
+        while has_next_following or has_next_followers:
+            query = f"""
+            {{
+              user(login: "{username}") {{
+                following(first: 100, after: {json.dumps(end_cursor_following)}) {{
+                  totalCount
+                  pageInfo {{
+                    hasNextPage
+                    endCursor
+                  }}
+                  edges {{
+                    node {{
+                      login
+                    }}
+                  }}
+                }}
+                followers(first: 100, after: {json.dumps(end_cursor_followers)}) {{
+                  totalCount
+                  pageInfo {{
+                    hasNextPage
+                    endCursor
+                  }}
+                  edges {{
+                    node {{
+                      login
+                    }}
+                  }}
                 }}
               }}
             }}
-            followers(first: {first}) {{
-              totalCount
-              edges {{
-                node {{
-                  login
-                }}
-              }}
-            }}
-          }}
-        }}
-        """
-        return self.run_query(query)
+            """
+            result = self.run_query(query)
+            user_data = result["data"]["user"]
+
+            # Process following
+            if has_next_following:
+                following_edges = user_data["following"]["edges"]
+                following.extend([edge["node"]["login"] for edge in following_edges])
+                has_next_following = user_data["following"]["pageInfo"]["hasNextPage"]
+                end_cursor_following = user_data["following"]["pageInfo"]["endCursor"]
+
+            # Process followers
+            if has_next_followers:
+                followers_edges = user_data["followers"]["edges"]
+                followers.extend([edge["node"]["login"] for edge in followers_edges])
+                has_next_followers = user_data["followers"]["pageInfo"]["hasNextPage"]
+                end_cursor_followers = user_data["followers"]["pageInfo"]["endCursor"]
+
+        return {"username": username, "following": following, "followers": followers}
 
 
