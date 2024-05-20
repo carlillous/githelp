@@ -45,10 +45,10 @@ def main():
                     mongo_client.insert_users(user_data)
 
                 #Consultas a su network
-                    for user_edge in user_data["data"]["search"]["edges"]:
-                        user_login = user_edge["node"]["login"]
-                        user_network = graphql_client.get_user_network(user_login)
-                        mongo_client.insert_user_network(user_network)
+                #    for user_edge in user_data["data"]["search"]["edges"]:
+                #        user_login = user_edge["node"]["login"]
+                #        user_network = graphql_client.get_user_network(user_login)
+                #        mongo_client.insert_user_network(user_network)
 
             except Exception as e:
                 print(e)

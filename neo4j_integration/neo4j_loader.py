@@ -3,14 +3,13 @@ from .neo4j_connection import Neo4JConnection
 from .data_parser import DataParser
 
 class Neo4JLoader:
-    def __init__(self, neo4j_uri, neo4j_user, neo4j_pass, mongo_client, mongo_db):
+    def __init__(self, neo4j_uri, neo4j_user, neo4j_pass, client):
         self.neo4j_conn = Neo4JConnection(neo4j_uri, neo4j_user, neo4j_pass)
-        self.mongo_client = mongo_client
-        self.mongo_db = self.mongo_client[mongo_db]
+        self.mongo_client = client
 
     def transfer_repositories(self):
         """Transfiere repositorios de MongoDB a Neo4J."""
-        documents = self.mongo_db.repositories.find()
+        documents = self.mongo_client.repo_collection.find()
         try:
             with self.neo4j_conn.driver.session() as session:
                 for doc in documents:
@@ -21,7 +20,7 @@ class Neo4JLoader:
 
     def transfer_users(self):
         """Transfiere usuarios de MongoDB a Neo4J."""
-        documents = self.mongo_db.users.find()
+        documents = self.mongo_client.users_collection.find()
         try:
             with self.neo4j_conn.driver.session() as session:
                 for doc in documents:
@@ -32,7 +31,7 @@ class Neo4JLoader:
 
     def transfer_user_network(self):
         """Transfiere la red de seguidores y seguidos de MongoDB a Neo4J."""
-        documents = self.mongo_db.network.find()
+        documents = self.mongo_client.network_collection.find()
         try:
             with self.neo4j_conn.driver.session() as session:
                 for doc in documents:
