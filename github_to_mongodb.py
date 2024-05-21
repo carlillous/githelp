@@ -33,7 +33,7 @@ def main():
         for language in tqdm(languages, desc="Languages", leave=False):
             try:
                 #Repositorios
-                repos_data = graphql_client.search_repositories(keyword=keyword, language=language, stars=100, first=25)
+                repos_data = graphql_client.search_repositories(keyword=keyword, language=language, stars=300, first=15)
                 mongo_client.insert_repositories(repos_data, keyword, language)
 
                 owners = [edge["node"]["owner"]["login"] for edge in repos_data["data"]["search"]["edges"]]
@@ -41,7 +41,6 @@ def main():
                 #Consultas a los usuarios
                 for owner in owners:
                     user_data = graphql_client.search_user(owner)
-                    print(user_data)
                     mongo_client.insert_users(user_data)
 
                 #Consultas a su network
