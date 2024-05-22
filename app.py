@@ -2,7 +2,6 @@ import os
 
 import streamlit as st
 import pandas as pd
-from dotenv import load_dotenv
 
 from mongodb.mongo_client import MongoDBClient
 from neo4j_integration.neo4j_connection import Neo4JConnection
