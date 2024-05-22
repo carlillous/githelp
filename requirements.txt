@@ -1,4 +1,3 @@
-python-dotenv
 os
 tqdm
 pandas
