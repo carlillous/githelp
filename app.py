@@ -38,14 +38,13 @@ def execute_queries(mongo_query, neo4j_query, selected_collection):
 
 st.title('GitHelp')
 
-load_dotenv()
-mongo_username = os.getenv('MONGO_USER')
-mongo_password = os.getenv('MONGO_PASSWORD')
+mongo_username = st.secrets["MONGO_USER"]
+mongo_password = st.secrets["MONGO_PASSWORD"]
 mongo_db = "github_data"
 mongo_client = MongoDBClient(mongo_db, username=mongo_username, password=mongo_password)
 
-neo4j_user = os.getenv('NEO4J_USER')
-neo4j_pass = os.getenv('NEO4J_PASSWORD')
+neo4j_user = st.secrets["NEO4J_USER"]
+neo4j_pass = st.secrets["NEO4J_PASSWORD"]
 mongo_client = MongoDBClient(mongo_db, mongo_username, mongo_password)
 neo4j_uri = os.getenv('NEO4J_URI')
 neo4j_driver = Neo4JConnection(neo4j_uri, neo4j_user, neo4j_pass)
