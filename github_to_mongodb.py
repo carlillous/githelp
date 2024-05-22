@@ -1,16 +1,18 @@
 from graphqlapi.graphql_client import GraphQLClient
 from mongodb.mongo_client import MongoDBClient
-import json
+from dotenv import load_dotenv
+import os
 from tqdm import tqdm
 
 def main():
+    load_dotenv()
     # Cliente Github
-    token = "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"
+    token = os.getenv('GRAPHQL_TOKEN')
     graphql_client = GraphQLClient(token)
 
     # Cliente Mongo con autenticación
-    mongo_username = "carlosmenegg"
-    mongo_password = "agcnc7SuS7f9BPou"
+    mongo_username = os.getenv('MONGO_USER')
+    mongo_password = os.getenv('MONGO_PASSWORD')
     mongo_client = MongoDBClient("github_data",  username=mongo_username, password=mongo_password)
 
     # Definición de keywords y lenguajes

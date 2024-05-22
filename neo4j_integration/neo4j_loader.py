@@ -3,8 +3,10 @@ from .neo4j_connection import Neo4JConnection
 from .data_parser import DataParser
 
 class Neo4JLoader:
-    def __init__(self, neo4j_uri, neo4j_user, neo4j_pass, client):
-        self.neo4j_conn = Neo4JConnection(neo4j_uri, neo4j_user, neo4j_pass)
+    def __init__(self, neo4j_user, neo4j_pass, client):
+        # probar +s o +ssc: https://stackoverflow.com/questions/73025684/unable-to-retrieve-routing-information-neo4j
+        self.neo4j_uri = "neo4j+ssc://b47768d5.databases.neo4j.io:"
+        self.neo4j_conn = Neo4JConnection(self.neo4j_uri, neo4j_user, neo4j_pass)
         self.mongo_client = client
 
     def transfer_repositories(self):

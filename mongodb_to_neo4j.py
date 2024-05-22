@@ -1,19 +1,21 @@
 # mongodb_to_neo4j.py
+from dotenv import load_dotenv
+
 from mongodb.mongo_client import MongoDBClient
 from neo4j_integration.neo4j_loader import *
+import os
 
 def main():
-    mongo_username = "carlosmenegg"
-    mongo_password = "agcnc7SuS7f9BPou"
+    load_dotenv()
+    mongo_username = os.getenv('MONGO_USER')
+    mongo_password = os.getenv('MONGO_PASSWORD')
     mongo_db = "github_data"
     mongo_client = MongoDBClient(mongo_db, username=mongo_username, password=mongo_password)
 
-    #probar +s o +ssc: https://stackoverflow.com/questions/73025684/unable-to-retrieve-routing-information-neo4j
-    neo4j_uri = "neo4j+ssc://b47768d5.databases.neo4j.io:"
-    neo4j_user = "neo4j"
-    neo4j_pass = "4I9XJHCkbj3zth9vf3POnpU6byO9cIjboda_aUwLC3k"
+    neo4j_user = os.getenv('NEO4J_USER')
+    neo4j_pass = os.getenv('NEO4J_PASSWORD')
 
-    loader = Neo4JLoader(neo4j_uri, neo4j_user, neo4j_pass, mongo_client)
+    loader = Neo4JLoader(neo4j_user, neo4j_pass, mongo_client)
     loader.transfer_repositories()
     loader.transfer_users()
     #loader.transfer_user_network()
