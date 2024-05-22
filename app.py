@@ -39,7 +39,7 @@ neo4j_driver = Neo4JConnection("neo4j+ssc://b47768d5.databases.neo4j.io:", "neo4
 
 # MongoDB Query Section
 st.sidebar.header("Consulta MongoDB")
-collections = ['repositories', 'users', 'network']  # List of collections
+collections = ['repositories', 'users']  # List of collections
 selected_collection = st.sidebar.selectbox("Selecciona la colección", collections)
 mongo_query = st.sidebar.text_area("Consulta (JSON)")
 
