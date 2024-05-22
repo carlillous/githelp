@@ -1,5 +1,9 @@
+import os
+
 import streamlit as st
 import pandas as pd
+from dotenv import load_dotenv
+
 from mongodb.mongo_client import MongoDBClient
 from neo4j_integration.neo4j_connection import Neo4JConnection
 import json
@@ -34,8 +38,17 @@ def execute_queries(mongo_query, neo4j_query, selected_collection):
 
 st.title('GitHelp')
 
-mongo_client = MongoDBClient("github_data", username="carlosmenegg", password="agcnc7SuS7f9BPou")
-neo4j_driver = Neo4JConnection("neo4j+ssc://b47768d5.databases.neo4j.io:", "neo4j", "4I9XJHCkbj3zth9vf3POnpU6byO9cIjboda_aUwLC3k")
+load_dotenv()
+mongo_username = os.getenv('MONGO_USER')
+mongo_password = os.getenv('MONGO_PASSWORD')
+mongo_db = "github_data"
+mongo_client = MongoDBClient(mongo_db, username=mongo_username, password=mongo_password)
+
+neo4j_user = os.getenv('NEO4J_USER')
+neo4j_pass = os.getenv('NEO4J_PASSWORD')
+mongo_client = MongoDBClient(mongo_db, mongo_username, mongo_password)
+neo4j_uri = os.getenv('NEO4J_URI')
+neo4j_driver = Neo4JConnection(neo4j_uri, neo4j_user, neo4j_pass)
 
 # MongoDB Query Section
 st.sidebar.header("Consulta MongoDB")
